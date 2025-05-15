@@ -9,36 +9,36 @@ namespace SweetManagerWebService.IAM.Infrastructure.Pipeline.Middleware.Componen
 
 public class RequestAuthorizationMiddleware(RequestDelegate next, ILogger<RequestAuthorizationMiddleware> logger)
 {
-    public async Task InvokeAsync(HttpContext context, ITokenService tokenService, IAdminQueryService adminQueryService,
-        IWorkerQueryService workerQueryService, IOwnerQueryService ownerQueryService)
+    public async Task InvokeAsync(
+        HttpContext context,
+        ITokenService tokenService,
+        IAdminQueryService adminQueryService,
+        IWorkerQueryService workerQueryService,
+        IOwnerQueryService ownerQueryService)
     {
         try
         {
-            var endpoint = context.Request.HttpContext.GetEndpoint();
-        
-            var allowAnonymous =
-                context.Request.HttpContext.GetEndpoint()!.Metadata.Any(m =>
-                    m.GetType() == typeof(AllowAnonymousAttribute));
-        
+            var endpoint = context.GetEndpoint();
+            var allowAnonymous = endpoint?.Metadata?.Any(m => m is AllowAnonymousAttribute) ?? false;
+
             logger.LogInformation($"Endpoint: {endpoint?.DisplayName}, AllowAnonymous: {allowAnonymous}");
 
             if (allowAnonymous)
             {
                 await next(context);
-
                 return;
             }
-            
-            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+
+            var tokenHeader = context.Request.Headers["Authorization"].FirstOrDefault();
+            var token = tokenHeader?.Split(" ").Last();
 
             if (string.IsNullOrEmpty(token))
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-
                 await context.Response.WriteAsync("Token is required");
                 return;
             }
-            
+
             var tokenResult = tokenService.ValidateToken(token);
 
             if (tokenResult == null)
@@ -49,22 +49,19 @@ public class RequestAuthorizationMiddleware(RequestDelegate next, ILogger<Reques
             }
 
             dynamic? validation = null;
-        
-            // Only if I have more than 1 Aggregate 
+
             if (tokenResult.Role == "ROLE_ADMIN")
                 validation = await adminQueryService.Handle(new GetUserByIdQuery(tokenResult.Id));
-        
             else if (tokenResult.Role == "ROLE_WORKER")
                 validation = await workerQueryService.Handle(new GetUserByIdQuery(tokenResult.Id));
-        
             else if (tokenResult.Role == "ROLE_OWNER")
                 validation = await ownerQueryService.Handle(new GetUserByIdQuery(tokenResult.Id));
-        
+
             if (validation is null)
                 throw new Exception("Invalid credentials!");
 
             context.Items["Credentials"] = tokenResult;
-        
+
             await next(context);
         }
         catch (Exception ex)
@@ -73,6 +70,5 @@ public class RequestAuthorizationMiddleware(RequestDelegate next, ILogger<Reques
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             await context.Response.WriteAsync("Invalid Token!");
         }
-        
     }
 }
