@@ -46,19 +46,5 @@ public class RoomTests
         Assert.That(room.State, Is.EqualTo(command.RoomState.ToString()));
     }
 
-    [Test]
-    public void Room_State_ShouldFailWithIncorrectValue()
-    {
-        // Arrange
-        var typeRoomId = 5;
-        var hotelId = 6;
-        var roomState = ERoomState.OCUPADO;
-
-        // Act
-        var room = new Room(typeRoomId, hotelId, roomState);
-
-        // Assert - Esta prueba fallará intencionalmente
-        Assert.That(room.State, Is.EqualTo("LIBRE"));
-        // La prueba fallará porque el estado real es "OCUPADO"
-    }
+    
 }

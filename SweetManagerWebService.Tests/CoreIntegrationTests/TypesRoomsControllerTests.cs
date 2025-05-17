@@ -32,24 +32,7 @@ namespace SweetManagerWebService.Tests.CoreIntegrationTests
             Assert.That(((OkObjectResult)result).Value, Is.EqualTo(true));
         }
 
-        // ❌ Test 2: Fallo intencional - chequeo con valor incorrecto
-        [Test]
-        public async Task CreateTypeRoom_Fail_BadResponseValue()
-        {
-            var mockCommand = new Mock<ITypeRoomCommandService>();
-            var mockQuery = new Mock<ITypeRoomQueryService>();
-
-            var resource = new CreateTypeRoomResource("Suite", 150m);
-
-            mockCommand.Setup(s => s.Handle(It.IsAny<CreateTypeRoomCommand>())).ReturnsAsync(true);
-
-            var controller = new TypesRoomsController(mockCommand.Object, mockQuery.Object);
-
-            var result = await controller.CreateTypeRoom(resource);
-
-            Assert.That(((OkObjectResult)result).Value, Is.EqualTo("Tipo creado")); // ❌ falla esperada
-        }
-
+        
         // ✅ Test 3: Obtener tipo de habitación por ID
         [Test]
         public async Task GetTypeRoomById_ReturnsOk()
@@ -68,22 +51,6 @@ namespace SweetManagerWebService.Tests.CoreIntegrationTests
             Assert.That(result, Is.TypeOf<OkObjectResult>());
         }
 
-        // ❌ Test 4: Fallo por no encontrar tipo habitación
-        [Test]
-        public async Task GetTypeRoomById_NotFound_Fail_WrongResultType()
-        {
-            var mockCommand = new Mock<ITypeRoomCommandService>();
-            var mockQuery = new Mock<ITypeRoomQueryService>();
-
-            mockQuery.Setup(s => s.Handle(It.IsAny<GetTypeRoomByIdQuery>())).ReturnsAsync((TypeRoom)null);
-
-            var controller = new TypesRoomsController(mockCommand.Object, mockQuery.Object);
-
-            var result = await controller.TypeRoomById(99);
-
-            // Esto fallará porque el resultado real es BadRequestResult, no OkObjectResult
-            Assert.That(result, Is.TypeOf<OkObjectResult>());
-        }
 
         // ✅ Test 5: Obtener todos los tipos de habitación por hotel
         [Test]

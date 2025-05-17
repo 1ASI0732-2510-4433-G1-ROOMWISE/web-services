@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SweetManagerWebService.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ecae89fb6a99c2ec65ab2e0868fb554c01df1eaf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+21ebe5ec94e968fffd042a31c5d45a0f45bb0b00")]
 [assembly: System.Reflection.AssemblyProductAttribute("SweetManagerWebService.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SweetManagerWebService.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

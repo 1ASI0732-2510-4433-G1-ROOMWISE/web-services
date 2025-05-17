@@ -34,23 +34,7 @@ namespace SweetManagerWebService.Tests.CoreIntegrationTests
             Assert.That(((OkObjectResult)result).Value, Is.EqualTo(true));
         }
 
-        // ❌ Test 2: Fallo intencional - respuesta incorrecta
-        [Test]
-        public async Task CreateRoom_Fail_WrongResponse()
-        {
-            var mockCommand = new Mock<IRoomCommandService>();
-            var mockQuery = new Mock<IRoomQueryService>();
-
-            var resource = new CreateRoomResource(1, 1);
-
-            mockCommand.Setup(s => s.Handle(It.IsAny<CreateRoomCommand>())).ReturnsAsync(true);
-
-            var controller = new RoomsController(mockCommand.Object, mockQuery.Object);
-
-            var result = await controller.CreateRoom(resource);
-
-            Assert.That(((OkObjectResult)result).Value, Is.EqualTo("Habitación creada")); // ❌ Mensaje incorrecto
-        }
+       
 
         // ✅ Test 3: Obtener habitación por ID
         [Test]
@@ -71,22 +55,7 @@ namespace SweetManagerWebService.Tests.CoreIntegrationTests
             Assert.That(result, Is.TypeOf<OkObjectResult>());
         }
 
-        // ❌ Test 4: Fallo esperado por no encontrar la habitación
-        [Test]
-        public async Task GetRoomById_ReturnsBadRequest_Fail()
-        {
-            var mockCommand = new Mock<IRoomCommandService>();
-            var mockQuery = new Mock<IRoomQueryService>();
-
-            mockQuery.Setup(s => s.Handle(It.IsAny<GetRoomByIdQuery>())).ReturnsAsync((Room)null);
-
-            var controller = new RoomsController(mockCommand.Object, mockQuery.Object);
-
-            var result = await controller.RoomById(999);
-
-            // Esta aserción es incorrecta y hará que el test falle (rojo)
-            Assert.That(result, Is.TypeOf<OkObjectResult>());
-        }
+        
 
         // ✅ Test 5: Obtener todas las habitaciones por hotel
         [Test]

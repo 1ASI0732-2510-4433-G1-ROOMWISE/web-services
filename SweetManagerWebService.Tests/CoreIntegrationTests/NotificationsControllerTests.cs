@@ -32,29 +32,7 @@ public class NotificationsControllerTests
         Assert.That(((OkObjectResult)result).Value, Is.EqualTo(true));
     }
 
-    // ❌ 2. Intentional fail: esperamos NotFound pero retorna Ok
-    [Test]
-    public async Task NotificationById_IntentionalFail_WrongExpectation()
-    {
-        var mockCommand = new Mock<INotificationCommandService>();
-        var mockQuery = new Mock<INotificationQueryService>();
-        var controller = new NotificationsController(mockCommand.Object, mockQuery.Object);
-
-        var notification = new Notification
-        {
-            Title = "Test",
-            Description = "Description",
-            TypesNotificationsId = 1
-        };
-
-        mockQuery.Setup(q => q.Handle(It.Is<GetNotificationByIdQuery>(x => x.Id == 5)))
-                 .ReturnsAsync(notification);
-
-        var result = await controller.NotificationById(5);
-
-        // ❌ Esperamos un NotFound, pero en realidad será un Ok
-        Assert.That(result, Is.TypeOf<NotFoundObjectResult>());
-    }
+    
 
     // ✅ 3. Obtener todas las notificaciones por hotel
     [Test]
@@ -91,28 +69,5 @@ public class NotificationsControllerTests
         Assert.That(((BadRequestObjectResult)result).Value, Is.EqualTo("Invalid Id"));
     }
 
-    // ❌ 5. Fallo intencional: esperamos lista vacía pero hay elementos
-    [Test]
-    public async Task GetAllNotificationsByWorkerId_IntentionalFail_NotEmpty()
-    {
-        var mockCommand = new Mock<INotificationCommandService>();
-        var mockQuery = new Mock<INotificationQueryService>();
-        var controller = new NotificationsController(mockCommand.Object, mockQuery.Object);
-
-        var notifs = new List<Notification>
-        {
-            new Notification { Title = "Alert", Description = "From worker", TypesNotificationsId = 2 }
-        };
-
-        mockQuery.Setup(q => q.Handle(It.IsAny<GetAllNotificationsByWorkerIdQuery>()))
-                 .ReturnsAsync(notifs);
-
-        var result = await controller.GetAllNotificationsByWorkerId(999);
-
-        Assert.That(result, Is.TypeOf<OkObjectResult>());
-        var list = ((OkObjectResult)result).Value as IEnumerable<NotificationResource>;
-
-        // ❌ Fallará porque la lista NO está vacía
-        Assert.That(list.Any(), Is.False);
-    }
+    
 }

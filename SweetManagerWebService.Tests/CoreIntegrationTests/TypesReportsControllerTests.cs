@@ -36,27 +36,7 @@ public class TypesReportsControllerTests
         Assert.That(list.Count(), Is.EqualTo(2));
     }
 
-    // ❌ Test 2: Intencionalmente falla esperando más resultados de los que hay
-    [Test]
-    public async Task AllTypesReports_Fails_WrongCountExpectation()
-    {
-        var mockQuery = new Mock<ITypeReportQueryService>();
-
-        var types = new List<TypeReport>
-        {
-            new TypeReport("MAINTENANCE")
-        };
-
-        mockQuery.Setup(q => q.Handle(It.IsAny<GetAllTypesReportsQuery>())).ReturnsAsync(types);
-
-        var controller = new TypesReportsController(mockQuery.Object);
-
-        var result = await controller.AllTypesReports();
-
-        var list = ((OkObjectResult)result).Value as IEnumerable<TypeReportResource>;
-        // ❌ Esto va a fallar porque solo hay 1 tipo y esperamos 2
-        Assert.That(list.Count(), Is.EqualTo(2));
-    }
+    
 
     // ✅ Test 3: Obtener tipo de reporte por ID válido
     [Test]
@@ -78,19 +58,7 @@ public class TypesReportsControllerTests
         Assert.That(resource.Title, Is.EqualTo("SECURITY"));
     }
 
-    // ❌ Test 4: Falla esperando BadRequest con ID negativo pero pasa a lógica
-    [Test]
-    public async Task TypeReportById_InvalidId_ShouldFailButDoesNot()
-    {
-        var mockQuery = new Mock<ITypeReportQueryService>();
-
-        var controller = new TypesReportsController(mockQuery.Object);
-
-        // ❌ Aquí el controlador sí devuelve BadRequest, pero la prueba espera Ok, por eso fallará
-        var result = await controller.TypeReportById(-1);
-
-        Assert.That(result, Is.TypeOf<OkObjectResult>()); // Esto falla
-    }
+    
 
     // ✅ Test 5: ID válido pero TypeReport no existe (retorna NotFound)
     [Test]

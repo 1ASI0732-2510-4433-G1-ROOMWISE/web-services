@@ -74,35 +74,7 @@ public class BookingTests
         Assert.That(booking.State, Is.EqualTo(command.BookingState.ToString()));
     }
 
-    [Test]
-    public void Booking_Amount_ShouldFailWithIncorrectCalculation()
-    {
-        // Arrange
-        var paymentCustomerId = 5;
-        var roomId = 6;
-        var description = "Reserva familiar";
-        var startDate = new DateTime(2025, 8, 1);
-        var finalDate = new DateTime(2025, 8, 5);
-        var priceRoom = 200.00m;
-        var nightCount = 4;
-        var bookingState = EBookingState.RESERVADO;
-
-        // Act
-        var booking = new Booking(
-            paymentCustomerId,
-            roomId,
-            description,
-            startDate,
-            finalDate,
-            priceRoom,
-            nightCount,
-            bookingState
-        );
-
-        // Assert - Esta prueba fallará intencionalmente
-        // El cálculo correcto sería 200 * 4 = 800, pero estamos esperando 900
-        Assert.That(booking.Amount, Is.EqualTo(900m));
-    }
+    
 
     
 }

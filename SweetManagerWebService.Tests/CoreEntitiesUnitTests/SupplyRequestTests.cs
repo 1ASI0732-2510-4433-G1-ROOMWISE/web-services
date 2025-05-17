@@ -79,28 +79,5 @@ public class SuppliesRequestTests
         Assert.That(suppliesRequest.Count * pricePerUnit, Is.EqualTo(suppliesRequest.Amount));
     }
 
-    [Test]
-    public void SuppliesRequest_AmountCalculation_ShouldFailWithIncorrectValue()
-    {
-        // Arrange
-        var id = 3;
-        var paymentsOwnersId = 4;
-        var suppliesId = 5;
-        var count = 8;
-        var incorrectAmount = 100.00m; // Este monto no corresponde al cálculo correcto
-
-        // Act
-        var suppliesRequest = new SuppliesRequest(
-            id,
-            paymentsOwnersId,
-            suppliesId,
-            count,
-            incorrectAmount
-        );
-
-        // Assert - Esta prueba fallará intencionalmente
-        // Si el precio por unidad es 20.00m, entonces el monto correcto sería 8 * 20.00m = 160.00m, no 100.00m
-        var assumedPricePerUnit = 20.00m;
-        Assert.That(suppliesRequest.Amount, Is.EqualTo(count * assumedPricePerUnit));
-    }
+    
 }

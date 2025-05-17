@@ -77,29 +77,5 @@ public class ReportTests
         Assert.That(report.Description, Is.EqualTo(command.Description));
     }
 
-    [Test]
-    public void Report_Constructor_WithWrongTypeReport_ShouldFailValidation()
-    {
-        // Arrange
-        var invalidTypeReportId = 99; // Un ID que no corresponde a ningún tipo de reporte válido
-        var adminsId = 2;
-        var workersId = 3;
-        var fileUrl = "http://example.com/reports/invalid.pdf";
-        var title = "Reporte inválido";
-        var description = "Este reporte tiene un tipo inválido";
-
-        // Act
-        var report = new Report(
-            invalidTypeReportId,
-            adminsId,
-            workersId,
-            fileUrl,
-            title,
-            description
-        );
-
-        // Assert - Esta prueba fallará intencionalmente
-        // Solo son válidos los tipos definidos en ETypeReports (0, 1, 2)
-        Assert.That(report.TypesReportsId, Is.LessThan(Enum.GetValues(typeof(ETypeReports)).Length));
-    }
+    
 }

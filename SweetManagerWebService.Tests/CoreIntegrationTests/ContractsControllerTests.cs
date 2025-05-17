@@ -34,25 +34,7 @@ public class ContractsControllerTests
         Assert.That(((OkObjectResult)result).Value, Is.EqualTo("Contract registered correctly!"));
     }
 
-    // ❌ Test 2: Fallo intencional - el mensaje esperado no coincide
-    [Test]
-    public async Task CreateContractOwner_IntentionalFail_WrongMessage()
-    {
-        var mockCommand = new Mock<IContractOwnerCommandService>();
-        var mockQuery = new Mock<IContractOwnerQueryService>();
-
-        var resource = new CreateContractOwnerResource(1, 2, "active");
-
-        mockCommand.Setup(s => s.Handle(It.IsAny<CreateContractOwnerCommand>())).ReturnsAsync(true);
-
-        var controller = new ContractsController(mockCommand.Object, mockQuery.Object);
-
-        var result = await controller.CreateContractOwner(resource);
-
-        Assert.That(result, Is.TypeOf<OkObjectResult>());
-        // ❌ Este mensaje no es el que devuelve el controlador, provocará un fallo
-        Assert.That(((OkObjectResult)result).Value, Is.EqualTo("Mensaje incorrecto"));
-    }
+    
 
     // ✅ Test 3: Obtener contrato existente por OwnerId
     [Test]
@@ -75,25 +57,6 @@ public class ContractsControllerTests
 
         Assert.That(contract.OwnersId, Is.EqualTo(2));
         Assert.That(contract.SubscriptionId, Is.EqualTo(1));
-    }
-
-    // ❌ Test 4: Fallo intencional - esperamos una excepción pero no ocurre
-    [Test]
-    public async Task GetContractByOwnerId_IntentionalFail_ExpectException()
-    {
-        var mockCommand = new Mock<IContractOwnerCommandService>();
-        var mockQuery = new Mock<IContractOwnerQueryService>();
-
-        // No hay excepción, retorna null normalmente
-        mockQuery.Setup(s => s.Handle(It.IsAny<GetContractOwnerByOwnerIdQuery>()))
-                 .ReturnsAsync((ContractOwner)null);
-
-        var controller = new ContractsController(mockCommand.Object, mockQuery.Object);
-
-        var result = await controller.GetContractByOwnerId(2);
-
-        // ❌ Esperamos una excepción, pero el controlador devuelve BadRequest, no lanza error
-        Assert.ThrowsAsync<Exception>(() => controller.GetContractByOwnerId(2));
     }
 
     // ✅ Test 5: Cuando no se encuentra contrato

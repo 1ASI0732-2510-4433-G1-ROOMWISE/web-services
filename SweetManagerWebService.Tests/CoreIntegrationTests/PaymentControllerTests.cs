@@ -32,24 +32,7 @@ public class PaymentControllerTests
         Assert.That(((OkObjectResult)result).Value, Is.EqualTo("Payment registered correctly!"));
     }
 
-    // ❌ 2. Falla esperada: Asserts incorrectos intencionalmente (tipo incorrecto)
-    [Test]
-    public async Task CreatePaymentOwner_IntentionalFail_WrongType()
-    {
-        var mockCommandOwner = new Mock<IPaymentOwnerCommandService>();
-        var controller = CreateController(mockCommandOwner: mockCommandOwner);
-
-        var resource = new CreatePaymentOwnerResource(1, "This will fail", 100.0m);
-
-        mockCommandOwner
-            .Setup(s => s.Handle(It.IsAny<CreatePaymentOwnerCommand>()))
-            .ReturnsAsync(true);
-
-        var result = await controller.CreatePaymentOwner(resource);
-
-        // ❌ Esto fallará porque el resultado NO es BadRequest
-        Assert.That(result, Is.TypeOf<BadRequestObjectResult>());
-    }
+    
 
     // ✅ 3. Lista de pagos por dueño
     [Test]
@@ -72,25 +55,7 @@ public class PaymentControllerTests
         Assert.That(list.Any(), Is.True);
     }
 
-    // ❌ 4. Falla esperada: Lista vacía pero esperamos que tenga elementos
-    [Test]
-    public async Task GetPaymentsByCustomerId_WhenEmpty_IntentionalFail()
-    {
-        var mockQueryCustomer = new Mock<IPaymentCustomerQueryService>();
-        var controller = CreateController(mockQueryCustomer: mockQueryCustomer);
-
-        mockQueryCustomer
-            .Setup(s => s.Handle(It.IsAny<GetAllPaymentCustomersByCustomerIdQuery>()))
-            .ReturnsAsync(new List<PaymentCustomer>()); // Lista vacía
-
-        var result = await controller.GetPaymentsByCustomerId(123);
-
-        Assert.That(result, Is.TypeOf<OkObjectResult>());
-        var list = ((OkObjectResult)result).Value as IEnumerable<PaymentCustomerResource>;
-
-        // ❌ Esto fallará porque la lista está vacía
-        Assert.That(list.Any(), Is.True);
-    }
+    
 
     // ✅ 5. Excepción controlada al obtener ingresos comparativos
     [Test]

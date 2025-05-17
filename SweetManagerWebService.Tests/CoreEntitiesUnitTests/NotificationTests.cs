@@ -70,29 +70,6 @@ public class NotificationTests
         Assert.That(notification.Description, Is.EqualTo(command.Description));
     }
     
-    [Test]
-    public void Notification_TitleProperty_ShouldFailWithIncorrectValue()
-    {
-        // Arrange
-        var typeNotificationId = 2;
-        var workerId = 10;
-        var title = "Recordatorio de Tarea";
-        var description = "No olvides completar tus tareas pendientes";
-
-        // Act
-        var notification = new Notification
-        {
-            TypesNotificationsId = typeNotificationId,
-            WorkersId = workerId,
-            OwnersId = null,
-            AdminsId = null,
-            Title = title,
-            Description = description
-        };
-
-        // Assert - Esta prueba fallará intencionalmente
-        Assert.That(notification.Title, Is.EqualTo("Título incorrecto"));
-        // La prueba fallará porque estamos comparando con un título diferente al que asignamos
-    }
+   
     
 }

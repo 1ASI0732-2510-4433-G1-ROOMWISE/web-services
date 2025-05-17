@@ -93,29 +93,5 @@ public class SupplyTests
         Assert.That(supply.State, Is.EqualTo(updateCommand.State.ToUpper()));
     }
 
-    [Test]
-    public void Supply_PriceCalculation_ShouldFailWithIncorrectValue()
-    {
-        // Arrange
-        var id = 5;
-        var providersId = 6;
-        var name = "Sal";
-        var price = 10.00m;
-        var stock = 200;
-        var state = "disponible";
-
-        // Act
-        var supply = new Supply(
-            id,
-            providersId,
-            name,
-            price,
-            stock,
-            state
-        );
-
-        // Assert - Esta prueba fallará intencionalmente
-        // El precio correcto debería ser 10.00, pero estamos esperando 15.00
-        Assert.That(supply.Price, Is.EqualTo(15.00m));
-    }
+    
 }

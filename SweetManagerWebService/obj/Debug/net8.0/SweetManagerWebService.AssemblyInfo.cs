@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SweetManagerWebService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cbed18b5c83059330d43e2e145f30cd94fd497ab")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+21ebe5ec94e968fffd042a31c5d45a0f45bb0b00")]
 [assembly: System.Reflection.AssemblyProductAttribute("SweetManagerWebService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SweetManagerWebService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

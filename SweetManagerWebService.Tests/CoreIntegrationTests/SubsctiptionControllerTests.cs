@@ -36,25 +36,7 @@ public class SubscriptionControllerTests
         Assert.That(((OkObjectResult)result).Value, Is.EqualTo("Subscription created correctly!"));
     }
 
-    // ❌ Test 2: Fallo intencional — mensaje incorrecto
-    [Test]
-    public async Task CreateSubscription_IntentionalFail_WrongMessage()
-    {
-        var mockCommand = new Mock<ISubscriptionCommandService>();
-        var mockQuery = new Mock<ISubscriptionQueryService>();
-
-        var resource = new CreateSubscriptionResource("Basic", "Yearly plan", 49.99m, "active");
-
-        mockCommand.Setup(s => s.Handle(It.IsAny<CreateSubscriptionCommand>())).ReturnsAsync(true);
-
-        var controller = new SubscriptionController(mockCommand.Object, mockQuery.Object);
-
-        var result = await controller.CreateSubscription(resource);
-
-        Assert.That(result, Is.TypeOf<OkObjectResult>());
-        // ❌ Esto fallará porque el mensaje no coincide con el real
-        Assert.That(((OkObjectResult)result).Value, Is.EqualTo("Mensaje equivocado"));
-    }
+    
 
     // ✅ Test 3: Obtener todas las suscripciones correctamente
     [Test]
@@ -80,23 +62,7 @@ public class SubscriptionControllerTests
         Assert.That(list.Count(), Is.EqualTo(2));
     }
 
-    // ❌ Test 4: Falla intencional — esperamos una suscripción pero es null
-    [Test]
-    public async Task GetSubscriptionById_WhenNotFound_IntentionalFail()
-    {
-        var mockCommand = new Mock<ISubscriptionCommandService>();
-        var mockQuery = new Mock<ISubscriptionQueryService>();
-
-        mockQuery.Setup(s => s.Handle(It.IsAny<GetSubscriptionByIdQuery>()))
-                 .ReturnsAsync((Subscription)null); // No se encuentra
-
-        var controller = new SubscriptionController(mockCommand.Object, mockQuery.Object);
-
-        var result = await controller.GetSubscriptionById(999);
-
-        // ❌ Esto fallará porque el resultado real es BadRequest
-        Assert.That(result, Is.TypeOf<OkObjectResult>());
-    }
+    
 
     // ✅ Test 5: Obtener suscripción por ID correctamente
     [Test]

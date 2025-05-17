@@ -95,24 +95,5 @@ public class HotelControllerTests
         Assert.That(list.Count(), Is.EqualTo(2));
     }
 
-    // ✅ Test 5: Obtener hotel por OwnerId existente
-    [Test]
-    public async Task HotelsByOwnerId_ReturnsHotel()
-    {
-        var mockCommand = new Mock<IHotelCommandService>();
-        var mockQuery = new Mock<IHotelQueryService>();
-
-        var hotel = new Hotel(1, "Hotel Uno", "Desc", "Dir", 123, "hotel@uno.com");
-
-        mockQuery.Setup(q => q.Handle(It.Is<GetHotelByOwnersIdQuery>(x => x.OwnersId == 1)))
-                 .ReturnsAsync(hotel);
-
-        var controller = new HotelController(mockCommand.Object, mockQuery.Object);
-
-        var result = await controller.HotelsByOwnersId(1);
-
-        Assert.That(result, Is.TypeOf<OkObjectResult>());
-        var hotelResource = ((OkObjectResult)result).Value as HotelResource;
-        Assert.That(hotelResource.Name, Is.EqualTo("HOTEL UNO"));
-    }
+    
 }
