@@ -1,29 +1,38 @@
-name: .NET Build and Test
+name: Run Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '8.0.x' 
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
 
-      - name: Restore dependencies
-        run: dotnet restore
+    - name: Restore all dependencies
+      run: dotnet restore
 
-      - name: Build
-        run: dotnet build --no-restore
+    - name: Restore CoreEntitiesUnitTests
+      run: dotnet restore SweetManagerWebService.Tests/CoreEntitiesUnitTests/CoreEntitiesUnitTests.csproj
 
-      - name: Run Tests
-        run: dotnet test --no-build --verbosity normal
+    - name: Restore CoreIntegrationTests
+      run: dotnet restore SweetManagerWebService.Tests/CoreIntegrationTests/CoreIntegrationTests.csproj
+
+    - name: Build all projects
+      run: dotnet build --no-restore
+
+    - name: Run CoreEntitiesUnitTests
+      run: dotnet test SweetManagerWebService.Tests/CoreEntitiesUnitTests/CoreEntitiesUnitTests.csproj --no-restore --verbosity normal
+
+    - name: Run CoreIntegrationTests
+      run: dotnet test SweetManagerWebService.Tests/CoreIntegrationTests/CoreIntegrationTests.csproj --no-restore --verbosity normal
