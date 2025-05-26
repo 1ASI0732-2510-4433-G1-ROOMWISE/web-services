@@ -23,9 +23,9 @@ public class HashingService : IHashingService
                 new(Encoding.UTF8.GetBytes(code))
                 {
                     Salt = Encoding.UTF8.GetBytes(salt),
-                    DegreeOfParallelism = 8,
-                    Iterations = 4,
-                    MemorySize = 1024 * 1024
+                    DegreeOfParallelism = 4,
+                    Iterations = 2,
+                    MemorySize = 256 * 1024
                 };
 
         return Convert.ToBase64String
