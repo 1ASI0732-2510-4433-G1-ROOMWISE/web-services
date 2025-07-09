@@ -5,6 +5,10 @@ using SweetManagerWebService.Communication.Domain.Repositories;
 using SweetManagerWebService.Communication.Domain.Services.Notification;
 
 namespace SweetManagerWebService.Communication.Application.CommandService;
+// Este servicio maneja la creación de notificaciones para diferentes tipos de usuarios (Admins, Workers, Owners).
+// Se verifica si los IDs son 0 para tratarlos como null (es decir, sin destinatario en ese rol).
+// La notificación es almacenada mediante el repositorio y se confirma la transacción con UnitOfWork.
+
 
 public class NotificationCommandService(INotificationRepository notificationRepository, IUnitOfWork unitOfWork) : INotificationCommandService
 {
