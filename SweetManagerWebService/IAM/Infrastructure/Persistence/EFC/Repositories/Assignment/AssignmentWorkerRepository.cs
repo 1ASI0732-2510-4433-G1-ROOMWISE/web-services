@@ -1,4 +1,4 @@
-﻿using sweetmanager.API.Shared.Domain.Repositories;
+using sweetmanager.API.Shared.Domain.Repositories;
 using SweetManagerWebService.IAM.Domain.Model.Aggregates;
 using SweetManagerWebService.IAM.Domain.Model.Entities.Assignments;
 using SweetManagerWebService.IAM.Domain.Model.Entities.Roles;
@@ -9,9 +9,10 @@ using SweetManagerWebService.Shared.Infrastructure.Persistence.EFC.Repositories;
 
 namespace SweetManagerWebService.IAM.Infrastructure.Persistence.EFC.Repositories.Assignment;
 
+// Repository class for managing AssignmentWorker entities in the database
 public class AssignmentWorkerRepository(SweetManagerContext context) : BaseRepository<AssignmentWorker>(context), IAssignmentWorkerRepository
 {
-
+    // Method to find AssignmentWorkers by worker's ID, filtering out past assignments
     public async Task<IEnumerable<AssignmentWorker>> FindByWorkerIdAsync(int workerId)
         => await Task.Run(() => (
             from aw in Context.Set<AssignmentWorker>().ToList()
@@ -20,6 +21,7 @@ public class AssignmentWorkerRepository(SweetManagerContext context) : BaseRepos
             select aw
         ).ToList());
 
+    // Method to find AssignmentWorkers by admin's ID
     public async Task<IEnumerable<AssignmentWorker>> FindByAdminIdAsync(int adminId)
         => await Task.Run(() => (
             from aw in Context.Set<AssignmentWorker>().ToList()
@@ -27,11 +29,11 @@ public class AssignmentWorkerRepository(SweetManagerContext context) : BaseRepos
             select aw
         ).ToList());
 
+    // Method to find AssignmentWorkers by worker's area ID
     public async Task<IEnumerable<AssignmentWorker>> FindByWorkerAreaIdAsync(int workerAreaId)
         => await Task.Run(() => (
             from aw in Context.Set<AssignmentWorker>().ToList()
             where aw.WorkersAreasId.Equals(workerAreaId)
             select aw
         ).ToList());
-
 }
