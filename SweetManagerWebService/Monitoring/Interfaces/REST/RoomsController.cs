@@ -7,9 +7,9 @@ using SweetManagerWebService.Monitoring.Interfaces.REST.Transform.Room;
 
 namespace SweetManagerWebService.Monitoring.Interfaces.REST
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] // Base route: /api/rooms
     [ApiController]
-    [Produces(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)] // Returns JSON responses 
     public class RoomsController
         (IRoomCommandService roomCommandService,
         IRoomQueryService roomQueryService) : ControllerBase
