@@ -7,13 +7,15 @@ using SweetManagerWebService.Communication.Interfaces.REST.Transform.Notificatio
 
 namespace SweetManagerWebService.Communication.Interfaces.REST
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] // Base route: /api/notifications
     [ApiController]
-    [Produces(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)] // Returns JSON responses
     public class NotificationsController(
-        INotificationCommandService notificationCommandService, 
-        INotificationQueryService notificationQueryService) : ControllerBase
+        INotificationCommandService notificationCommandService,  // For write operations
+        INotificationQueryService notificationQueryService) : ControllerBase // For read operations
     {
+        // POST: api/notifications
+        // Creates a new notification
         [HttpPost]
         public async Task<IActionResult> CreateNotification([FromBody] CreateNotificationResource resource)
         {
@@ -33,7 +35,9 @@ namespace SweetManagerWebService.Communication.Interfaces.REST
                 return BadRequest(e.Message);
             }
         }
-        
+
+        // GET: api/notifications/get-all-notifications?hotelId={id}
+        // Gets all notifications for a specific hotel
         [HttpGet("get-all-notifications")]
         public async Task<IActionResult> AllNotifications([FromQuery] int hotelId)
         {
@@ -44,6 +48,8 @@ namespace SweetManagerWebService.Communication.Interfaces.REST
             return Ok(notificationsResource);
         }
 
+        // GET: api/notifications/get-notification-by-id?id={id}
+        // Gets a single notification by ID
         [HttpGet("get-notification-by-id")]
         public async Task<IActionResult> NotificationById([FromQuery] int id)
         {
@@ -71,6 +77,8 @@ namespace SweetManagerWebService.Communication.Interfaces.REST
             }
         }
 
+        // GET: api/notifications/get-all-notifications-by-workerId?workerId={id}
+        // Gets all notifications for a specific worker
         [HttpGet("get-all-notifications-by-workerId")]
         public async Task<IActionResult> GetAllNotificationsByWorkerId([FromQuery] int workerId)
         {
@@ -90,6 +98,8 @@ namespace SweetManagerWebService.Communication.Interfaces.REST
             }
         }
 
+         // GET: api/notifications/get-all-notifications-admins?hotelId={id}
+        // Gets all admin-specific notifications for a hotel
         [HttpGet("get-all-notifications-admins")]
         public async Task<IActionResult> GetAllNotificationsForAdmins([FromQuery] int hotelId)
         {
