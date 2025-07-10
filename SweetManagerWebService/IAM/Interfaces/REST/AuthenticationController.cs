@@ -12,10 +12,10 @@ using SweetManagerWebService.IAM.Interfaces.REST.Transform.Authentication.User;
 
 namespace SweetManagerWebService.IAM.Interfaces.REST;
 
-[Authorize]
+[Authorize] // Controller requires authorization by default
 [ApiController]
-[Route("api/v1/[controller]")]
-[Produces(MediaTypeNames.Application.Json)]
+[Route("api/v1/[controller]")] // Base route: /api/v1/authentication
+[Produces(MediaTypeNames.Application.Json)] // Returns JSON responses
 public class AuthenticationController(IAdminCommandService adminCommandService, 
     IAdminCredentialCommandService adminCredentialCommandService,
     IWorkerCommandService workerCommandService,
@@ -23,6 +23,8 @@ public class AuthenticationController(IAdminCommandService adminCommandService,
     IOwnerCommandService ownerCommandService,
     IOwnerCredentialCommandService ownerCredentialCommandService) : ControllerBase
 {
+    // POST: api/v1/authentication/sign-up-admin
+    // Registers a new admin user (anonymous access allowed)
     [HttpPost("sign-up-admin")]
     [AllowAnonymous]
     public async Task<IActionResult> SignUpAdmin([FromBody] SignUpUserResource resource)
@@ -43,6 +45,8 @@ public class AuthenticationController(IAdminCommandService adminCommandService,
         }
     }
 
+    // POST: api/v1/authentication/sign-up-worker
+    // Registers a new worker user (anonymous access allowed)
     [HttpPost("sign-up-worker")]
     [AllowAnonymous]
     public async Task<IActionResult> SignUpWorker([FromBody] SignUpUserResource resource)
@@ -63,6 +67,8 @@ public class AuthenticationController(IAdminCommandService adminCommandService,
         }
     }
 
+    // POST: api/v1/authentication/sign-up-owner
+    // Registers a new owner user (anonymous access allowed)
     [HttpPost("sign-up-owner")]
     [AllowAnonymous]
     public async Task<IActionResult> SignUpOwner([FromBody] SignUpUserResource resource)
@@ -83,6 +89,8 @@ public class AuthenticationController(IAdminCommandService adminCommandService,
         }
     }
 
+    // POST: api/v1/authentication/sign-in
+    // Authenticates a user (anonymous access allowed)
     [HttpPost("sign-in")]
     [AllowAnonymous]
     public async Task<IActionResult> SignIn([FromBody] SignInResource resource)
