@@ -5,11 +5,14 @@ using SweetManagerWebService.Communication.Interfaces.REST.Transform.TypeNotific
 
 namespace SweetManagerWebService.Communication.Interfaces.REST;
 
-[Route("api/[controller]")]
+[Route("api/[controller]")] // Base route: /api/typesnotifications
 [ApiController]
 public class TypesNotificationsController(ITypeNotificationQueryService typeNotificationQueryService) :
     ControllerBase
 {
+
+    // GET: api/typesnotifications
+    // Retrieves all notification types in the system
     [HttpGet]
     public async Task<IActionResult> AllTypesNotifications()
     {
@@ -23,7 +26,8 @@ public class TypesNotificationsController(ITypeNotificationQueryService typeNoti
         return Ok(typesNotificationsResource);
     }
 
-
+    // GET: api/typesnotifications/{id}
+    // Retrieves a specific notification type by ID
     [HttpGet("{id}")]
     public async Task<IActionResult> TypeNotificationById(int id)
     {
