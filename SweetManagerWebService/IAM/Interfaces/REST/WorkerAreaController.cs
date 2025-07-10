@@ -11,10 +11,10 @@ namespace SweetManagerWebService.IAM.Interfaces.REST;
 
 
 [ApiController]
-[Route("api/v1/[controller]")]
-[Produces(MediaTypeNames.Application.Json)]
-public class WorkerAreaController(IWorkerAreaCommandService workerAreaCommandService, 
-    IWorkerAreaQueryService workerAreaQueryService) : ControllerBase
+[Route("api/v1/[controller]")] // Base route: /api/v1/workerarea
+[Produces(MediaTypeNames.Application.Json)] // Returns JSON responses
+public class WorkerAreaController(IWorkerAreaCommandService workerAreaCommandService, // For write operations
+    IWorkerAreaQueryService workerAreaQueryService) : ControllerBase // For read operations
 {
     [HttpPost("create-worker-area")]
     [Authorize]
