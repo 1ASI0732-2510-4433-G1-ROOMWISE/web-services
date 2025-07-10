@@ -6,7 +6,7 @@ using SweetManagerWebService.Monitoring.Interfaces.REST.Transform.TypeRoom;
 
 namespace SweetManagerWebService.Monitoring.Interfaces.REST
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] // Base route: /api/Typesrooms
     [ApiController]
     public class TypesRoomsController
         (ITypeRoomCommandService typeRoomCommandService,
