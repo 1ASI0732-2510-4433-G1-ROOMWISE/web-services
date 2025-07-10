@@ -7,9 +7,9 @@ using SweetManagerWebService.Monitoring.Domain.Model.Queries.Booking;
 
 namespace SweetManagerWebService.Monitoring.Interfaces.REST
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] // Base route: /api/bookings
     [ApiController]
-    [Produces(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)] // Returns JSON responses 
     public class BookingsController
         (IBookingCommandService bookingCommandService,
         IBookingQueryService bookingQueryService) : ControllerBase
